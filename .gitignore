@@ -1,1 +1,57 @@
 "secure_store/fernet.key" 
+# .gitignore
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environment
+new_env_rag/
+venv/
+env/
+ENV/
+
+# Streamlit cache
+.streamlit/
+
+# Data files (vector databases can be large)
+data/vector_store*/
+*.faiss
+*.pkl
+
+# Logs
+logs/
+*.log
+*.jsonl
+
+# Model cache (Hugging Face models are large)
+models/
+.cache/
+
+# Secrets and credentials
+app/streamlit_config.yaml
+config.yaml
+*.key
+*.pem
+secrets.toml
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Test data with real PHI (never upload!)
+*_real.txt
+*_production.txt
+.vs/ 

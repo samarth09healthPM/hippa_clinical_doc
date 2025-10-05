@@ -7,6 +7,20 @@ from typing import List, Dict, Any, Tuple
 from presidio_analyzer import AnalyzerEngine
 from presidio_analyzer.recognizer_registry import RecognizerRegistry
 from presidio_anonymizer import AnonymizerEngine
+from presidio_analyzer import PatternRecognizer
+
+# Define medical terms that should NOT be redacted
+medical_terms_allowlist = [
+    "substernal", "exertional", "pressure-like", "diaphoresis",
+    "chest pain", "nausea", "radiation", "murmurs", "ischemia"
+]
+
+# Configure analyzer to ignore these terms
+analyzer_config = {
+    "nlp_engine_name": "spacy",
+    "models": [{"lang_code": "en", "model_name": "en_core_web_lg"}],
+    "allow_list": medical_terms_allowlist  # Don't redact these
+}
 
 # NLP for optional section detection
 import spacy
@@ -56,7 +70,6 @@ TAG_MAP = {
 
 class DeidPipeline:
     def __init__(self, fernet_key_path: str = "secure_store/fernet.key"):
-        # Load encryption key
         with open(fernet_key_path, "rb") as f:
             self.fernet = Fernet(f.read())
 

@@ -1,0 +1,32 @@
+SOAP NOTE - Cardiology Consultation
+Date: 2024-01-20
+
+PATIENT: Robert Johnson  
+DOB: 1965-07-15
+SSN: 123-45-6789
+Phone: (555) 333-2222
+
+SUBJECTIVE:
+Patient reports new onset chest pain for past 2 weeks. Pain is substernal, 
+described as pressure-like, occurs with exertion, relieved by rest. 
+Denies radiation to arms or jaw. No associated nausea or diaphoresis.
+
+OBJECTIVE:
+Vitals: BP 145/90, HR 88, RR 16, O2 Sat 98%
+Cardiac exam: Regular rate and rhythm, no murmurs
+ECG: Normal sinus rhythm, no ST changes
+Stress test: Positive for inducible ischemia
+
+ASSESSMENT:
+Coronary artery disease, likely stable angina
+
+PLAN:
+1. Start atorvastatin 40mg daily
+2. Metoprolol 50mg BID
+3. Cardiac catheterization scheduled
+4. Dietary consultation
+5. Return in 2 weeks
+
+Dr. Lisa Wang, MD, FACC
+Cardiology Associates
+Email: lwang@cardiology.com

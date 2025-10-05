@@ -1,0 +1,17 @@
+Patient: Mrs. Eleanor Grace Thompson, 72-year-old female
+Address: 458 Willowbrook Drive, Hartford, CT 06106
+Phone: (203) 555-8472
+Date of Visit: March 12, 2025
+MRN: 00451289
+
+Eleanor Thompson was brought to the emergency department by her husband, Richard Thompson, after experiencing sudden dizziness, blurred vision, and tingling in her left arm while gardening at home. The episode began around 3:15 PM and lasted approximately 40 minutes before partially resolving. She denied chest pain but described a fluttering sensation in her chest and mild shortness of breath. On arrival, her blood pressure was 182/94 mmHg, heart rate 108 bpm, respiratory rate 20, and oxygen saturation 93% on room air.
+
+Her medical history is significant for hypertension diagnosed in 2005, type 2 diabetes mellitus diagnosed in 2012, and a lumpectomy with radiation for left breast cancer in 2017. She quit smoking in 2009 after a 25-pack-year history and drinks wine socially. She reports no known drug allergies.
+
+At home, she has been taking metformin 500 mg twice daily, lisinopril 20 mg daily, and atorvastatin 40 mg nightly. She uses a pillbox and a reminder app on her iPhone 13 to track her medications. Pharmacy of record is CVS, 122 Main Street, Hartford, CT.
+
+On exam, she exhibited mild left facial droop and weakness in the left upper extremity (4/5 strength). Speech was slightly slurred. NIH Stroke Scale score was 6. CT head showed no acute hemorrhage; MRI revealed a small acute infarct in the right parietal lobe. Labs showed HbA1c 8.2% and glucose 218 mg/dL. Echocardiogram demonstrated preserved ejection fraction (55%) with mild left atrial enlargement.
+
+She was admitted to the stroke unit for monitoring. Neurology recommended initiation of aspirin 325 mg, later transitioned to 81 mg daily, and uptitration of atorvastatin to 80 mg. Clopidogrel 75 mg daily was added. Insulin glargine 10 units nightly was started with sliding scale coverage. During hospitalization, she participated in physical and speech therapy, showing gradual improvement in strength and clarity of speech.
+
+By discharge on March 20, 2025, she was ambulating with a cane and able to perform basic activities of daily living independently. She was counseled on stroke warning signs, blood pressure monitoring, and adherence to a low-sodium, low-carbohydrate diet. Follow-up appointments were scheduled with Dr. Amanda Lee (neurology) on April 2, 2025, and Dr. Michael Rivera (primary care) on April 10, 2025. Home health services were arranged for physical therapy and nursing visits twice weekly. Her husband was instructed on insulin administration and emergency precautions.
