@@ -12,8 +12,30 @@ st.title("HIPAA-compliant Clinical RAG Summarizer (MVP)")
 
 # --- Authentication setup ---
 
-with open("app/streamlit_config.yaml") as f:
-    config = yaml.load(f, Loader=SafeLoader)
+import streamlit as st
+
+# Load configuration from Streamlit secrets (cloud) or local file (development)
+try:
+    # For Streamlit Cloud: Load from secrets
+    if hasattr(st, 'secrets') and len(st.secrets) > 0:
+        config = {
+            "credentials": {
+                "usernames": dict(st.secrets["credentials"]["usernames"])
+            },
+            "cookie": {
+                "name": st.secrets["cookie"]["name"],
+                "key": st.secrets["cookie"]["key"],
+                "expiry_days": st.secrets["cookie"]["expiry_days"]
+            }
+        }
+    else:
+        # For local development: Load from YAML file
+        with open("app/streamlit_config.yaml") as f:
+            config = yaml.load(f, Loader=SafeLoader)
+except Exception as e:
+    st.error(f"Configuration error: {e}")
+    st.stop()
+
 
 authenticator = stauth.Authenticate(
     config["credentials"],
