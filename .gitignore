@@ -45,17 +45,17 @@ venv.bak/
 # ===================================
 # Secrets and Credentials (CRITICAL)
 # ===================================
-
-
-
-
+.streamlit/secrets.toml
+app/streamlit_config.yaml
+config.yaml
+secrets.toml
 *.key
 *.pem
 *.env
 .env
 .env.local
-*.jar
-
+secure_store/
+credentials/
 
 # ===================================
 # Large Data Files
@@ -107,3 +107,82 @@ data/deidentified/*.txt
 # Windows
 Thumbs.db
 Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+.directory
+.Trash-*
+
+# ===================================
+# Jupyter Notebooks
+# ===================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ===================================
+# Documentation Builds
+# ===================================
+docs/_build/
+site/
+htmlcov/
+.tox/
+
+# ===================================
+# Testing and Coverage
+# ===================================
+.pytest_cache/
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+
+# ===================================
+# Personal Notes and Temp Files
+# ===================================
+Commands to execute.txt
+Github push data/
+notes.txt
+TODO.txt
+test.py
+scratch.py
+debug.py
+
+# ===================================
+# Package and Distribution
+# ===================================
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# ===================================
+# Database Files
+# ===================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# ===================================
+# Large Media Files (if any)
+# ===================================
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.zip
+*.tar.gz
+*.rar
+
+# ===================================
+# Files Larger Than 100MB (GitHub limit)
+# ===================================
+# Add specific large files here if needed
+# Example: data/large_dataset.csv
