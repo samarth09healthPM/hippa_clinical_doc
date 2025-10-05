@@ -1,0 +1,17 @@
+credentials:
+  usernames:
+    clinician1:
+      email: clinician1@example.com
+      name: Clinician One
+      password: "$2b$12$r3uqzaknAfUAsMEVIKTR2eN8yuPxu8d8YJWmPOrvNKwK.K94sjl1W"
+      role: clinician
+    admin1:
+      email: admin1@example.com
+      name: Admin One
+      password: "$2b$12$r3uqzaknAfUAsMEVIKTR2eN8yuPxu8d8YJWmPOrvNKwK.K94sjl1W"
+      role: admin
+
+cookie:
+  expiry_days: 1
+  key: some_random_secret
+  name: auth_cookie
