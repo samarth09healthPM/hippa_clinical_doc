@@ -69,18 +69,49 @@ TAG_MAP = {
 }
 
 class DeidPipeline:
-    def __init__(self, fernet_key_path: str = "secure_store/fernet.key"):
-        with open(fernet_key_path, "rb") as f:
-            self.fernet = Fernet(f.read())
-
-        # Presidio setup
-        self.registry = RecognizerRegistry()
-        self.registry.load_predefined_recognizers()
-        self.analyzer = AnalyzerEngine(registry=self.registry)
-        self.anonymizer = AnonymizerEngine()
-
-        # NLP pipeline for section detection (spaCy base)
-        self.nlp = spacy.load("en_core_web_sm")
+    def __init__(self, fernet_key_path="secure_store/fernet.key"):
+    """
+    Initialize de-identification pipeline with Presidio
+    """
+    # For Streamlit Cloud: Generate key if not exists
+    import os
+    from cryptography.fernet import Fernet
+    
+    # Try to load existing key or generate new one
+    try:
+        if os.path.exists(fernet_key_path):
+            with open(fernet_key_path, "rb") as f:
+                key = f.read()
+        else:
+            # Generate new key for cloud deployment
+            key = Fernet.generate_key()
+            # Try to save it (might fail on read-only filesystems)
+            try:
+                os.makedirs(os.path.dirname(fernet_key_path), exist_ok=True)
+                with open(fernet_key_path, "wb") as f:
+                    f.write(key)
+            except (PermissionError, OSError):
+                # Cloud filesystem is read-only, just use the generated key
+                pass
+        
+        self.cipher_suite = Fernet(key)
+    except Exception as e:
+        # Fallback: Generate temporary key for this session
+        key = Fernet.generate_key()
+        self.cipher_suite = Fernet(key)
+    
+    # Initialize Presidio components
+    self.analyzer = AnalyzerEngine()
+    self.anonymizer = AnonymizerEngine()
+    
+    # Load spaCy model
+    try:
+        self.nlp = spacy.load("en_core_web_lg")
+    except OSError:
+        # If model not found, download it
+        import subprocess
+        subprocess.run(["python", "-m", "spacy", "download", "en_core_web_lg"])
+        self.nlp = spacy.load("en_core_web_lg")
 
     def _detect_sections(self, text: str) -> List[Tuple[str, int, int]]:
         """
