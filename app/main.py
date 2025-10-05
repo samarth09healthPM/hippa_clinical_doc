@@ -214,7 +214,7 @@ with summarize_tab:
     import os
     IS_CLOUD = os.path.exists('/mount/src')
     if IS_CLOUD:
-        st.info("🌐 Cloud Mode: Using optimized model (flan-t5-small)")
+        st.info("🌐 Cloud Mode: Using optimized model (flan-t5-base)")
     
     # CRITICAL FIX: Clear ChromaDB system cache to avoid singleton conflicts
     try:
@@ -310,7 +310,7 @@ with summarize_tab:
                 # Cache model loading in session state
                 if st.session_state["t5_model"] is None or st.session_state["t5_tokenizer"] is None:
                     st.info("⏳ Loading T5 model (first time only)...")
-                    tokenizer, model = make_t5("google/flan-t5-small")
+                    tokenizer, model = make_t5("google/flan-t5-base")
                     st.session_state["t5_tokenizer"] = tokenizer
                     st.session_state["t5_model"] = model
                 else:
