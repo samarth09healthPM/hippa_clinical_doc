@@ -525,7 +525,7 @@ def main():
     parser.add_argument("--persist_dir", default="./data/vector_store")
     parser.add_argument("--collection", default="notes")
     parser.add_argument("--embed_model", default="sentence-transformers/all-MiniLM-L6-v2")
-    parser.add_argument("--model_name", default="google/flan-t5-large")
+    parser.add_argument("--model_name", default="google/flan-t5-small")
     parser.add_argument("--query", required=True)
     parser.add_argument("--top_k", type=int, default=5)
     parser.add_argument("--out", default="./data/outputs/summaries/summary.txt")
