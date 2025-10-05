@@ -19,10 +19,10 @@ Command to run Streamlit UI app:
 streamlit run main.py
 
 # Step 1: Add the file to staging
-git add filename.txt
+git add app/deid_pipeline.py
 
 # Step 2: Commit the file with a message
-git commit -m "Add filename.txt with initial content"
+git commit -m "Add deid_pipeline.py with initial content"
 
 # Step 3: Push to GitHub (main branch)
 git push origin main
