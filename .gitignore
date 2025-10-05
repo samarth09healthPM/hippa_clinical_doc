@@ -1,188 +1,35 @@
-# ===================================
-# HIPAA RAG Clinical Project .gitignore
-# ===================================
+# Large data folders
+synthea/
+data/raw_synthea/
+data/vector_store*/
 
-# ===================================
-# Python Cache and Bytecode
-# ===================================
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.pyc
-*.pyo
-*.pyd
-pip-log.txt
-pip-delete-this-directory.txt
+# Models and cache
+models/
+.cache/
+transformers_cache/
 
-# ===================================
-# Virtual Environments
-# ===================================
+# Virtual environment
 new_env_rag/
 venv/
 env/
-ENV/
-env.bak/
-venv.bak/
-.venv/
 
-# ===================================
-# IDE and Editor Files
-# ===================================
-.vscode/
-.idea/
-.vs/
-*.swp
-*.swo
-*~
-.project
-.pydevproject
-.settings/
-*.sublime-project
-*.sublime-workspace
+# Secrets
 
-# ===================================
-# Secrets and Credentials (CRITICAL)
-# ===================================
-.streamlit/secrets.toml
-app/streamlit_config.yaml
-config.yaml
-secrets.toml
-*.key
-*.pem
-*.env
-.env
-.env.local
-secure_store/
-credentials/
 
-# ===================================
-# Large Data Files
-# ===================================
-# Raw Synthea data (very large)
-synthea/
-data/raw_synthea/
-data/synthea_output/
-
-# Vector databases (can be large)
-data/vector_store/
-data/vector_store_*/
-*.faiss
-*.index
-chroma.sqlite3
-chroma-data/
-
-# Model caches (hundreds of MBs)
-models/
-.cache/
-huggingface/
-transformers_cache/
-torch/checkpoints/
-
-# Large log files
+# Logs and outputs
 logs/
 *.log
 *.jsonl
-*.out
 
-# ===================================
-# Output and Temporary Files
-# ===================================
-data/outputs/
-data/temp/
-temp/
-tmp/
-*.tmp
-*.bak
-*.swp
+# Python cache
+__pycache__/
+*.pyc
 
-# Large de-identified data
-data/anonymized_notes/*.txt
-data/deidentified/*.txt
+# IDE
+.vs/
+.vscode/
+.idea/
 
-# ===================================
-# OS-Specific Files
-# ===================================
-# Windows
-Thumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-*.lnk
-
-# macOS
+# OS files
 .DS_Store
-.AppleDouble
-.LSOverride
-
-# Linux
-.directory
-.Trash-*
-
-# ===================================
-# Jupyter Notebooks
-# ===================================
-.ipynb_checkpoints/
-*.ipynb_checkpoints
-
-# ===================================
-# Documentation Builds
-# ===================================
-docs/_build/
-site/
-htmlcov/
-.tox/
-
-# ===================================
-# Testing and Coverage
-# ===================================
-.pytest_cache/
-.coverage
-coverage.xml
-*.cover
-.hypothesis/
-
-# ===================================
-# Personal Notes and Temp Files
-# ===================================
-Commands to execute.txt
-Github push data/
-notes.txt
-TODO.txt
-test.py
-scratch.py
-debug.py
-
-# ===================================
-# Package and Distribution
-# ===================================
-build/
-dist/
-*.egg-info/
-*.egg
-MANIFEST
-
-# ===================================
-# Database Files
-# ===================================
-*.db
-*.sqlite
-*.sqlite3
-*.db-journal
-
-# ===================================
-# Large Media Files (if any)
-# ===================================
-*.mp4
-*.avi
-*.mov
-*.wmv
-*.zip
-*.tar.gz
-*.rar
-
-# ===================================
-# Files Larger Than 100MB (GitHub limit)
-# ===================================
-# Add specific large files here if needed
-# Example: data/large_dataset.csv
+Thumbs.db

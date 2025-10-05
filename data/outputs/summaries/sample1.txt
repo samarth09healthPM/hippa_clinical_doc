@@ -1,7 +1,0 @@
-• Chief Complaint: Follow-up for Type 2 diabetes HISTORY OF PRESENT ILLNESS: Patient is a [DATE] male with a history of Type 2 Diabetes mellitus diagnosed [Date]
-• HPI: symptom onset, progression, and context
-• PMH: Dr. [NAME], [LOCATION]
-• Medications: metformin 1000mg BID, hypertension
-• Allergies: No known drug allergies. If none mentioned, state
-• Assessment: Type 2 diabetes mellitus diagnosed.
-• Plan: Follow-up for Type 2 diabetes, medications prescribed.
