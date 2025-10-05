@@ -11,32 +11,52 @@ st.set_page_config(page_title="Clinical Summarizer", layout="wide")
 st.title("HIPAA-compliant Clinical RAG Summarizer (MVP)")
 
 # --- Authentication setup ---
-
-import streamlit as st
-
-# Load configuration from Streamlit secrets (cloud) or local file (development)
-try:
-    # For Streamlit Cloud: Load from secrets
-    if hasattr(st, 'secrets') and len(st.secrets) > 0:
-        config = {
-            "credentials": {
-                "usernames": dict(st.secrets["credentials"]["usernames"])
-            },
-            "cookie": {
-                "name": st.secrets["cookie"]["name"],
-                "key": st.secrets["cookie"]["key"],
-                "expiry_days": st.secrets["cookie"]["expiry_days"]
+def load_config():
+    """Load configuration from Streamlit secrets or local YAML"""
+    try:
+        # Check if running on Streamlit Cloud (secrets available)
+        if "credentials" in st.secrets:
+            # Convert immutable Streamlit secrets to mutable dict
+            config = {
+                "credentials": {
+                    "usernames": {}
+                },
+                "cookie": {
+                    "name": str(st.secrets["cookie"]["name"]),
+                    "key": str(st.secrets["cookie"]["key"]),
+                    "expiry_days": int(st.secrets["cookie"]["expiry_days"])
+                }
             }
-        }
-    else:
-        # For local development: Load from YAML file
-        with open("app/streamlit_config.yaml") as f:
-            config = yaml.load(f, Loader=SafeLoader)
-except Exception as e:
-    st.error(f"Configuration error: {e}")
-    st.stop()
+            
+            # Convert each user to mutable dict
+            for username, user_data in st.secrets["credentials"]["usernames"].items():
+                config["credentials"]["usernames"][str(username)] = {
+                    "email": str(user_data["email"]),
+                    "failed_login_attempts": int(user_data.get("failed_login_attempts", 0)),
+                    "logged_in": bool(user_data.get("logged_in", False)),
+                    "name": str(user_data["name"]),
+                    "password": str(user_data["password"]),
+                    "role": str(user_data["role"])
+                }
+            
+            return config
+        else:
+            # Local development: Load from YAML file
+            with open("app/streamlit_config.yaml") as f:
+                return yaml.load(f, Loader=SafeLoader)
+                
+    except FileNotFoundError:
+        st.error("⚠️ Configuration file not found. Please set up authentication.")
+        st.stop()
+    except Exception as e:
+        st.error(f"⚠️ Configuration error: {e}")
+        st.info("Make sure secrets are configured in Streamlit Cloud settings.")
+        st.stop()
 
+# Load config
+config = load_config()
 
+# Create authenticator with mutable config
 authenticator = stauth.Authenticate(
     config["credentials"],
     config["cookie"]["name"],
