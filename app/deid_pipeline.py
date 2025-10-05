@@ -69,49 +69,57 @@ TAG_MAP = {
 }
 
 class DeidPipeline:
+    """
+    De-identification pipeline using Microsoft Presidio
+    """
     def __init__(self, fernet_key_path="secure_store/fernet.key"):
-    """
-    Initialize de-identification pipeline with Presidio
-    """
-    # For Streamlit Cloud: Generate key if not exists
-    import os
-    from cryptography.fernet import Fernet
-    
-    # Try to load existing key or generate new one
-    try:
-        if os.path.exists(fernet_key_path):
-            with open(fernet_key_path, "rb") as f:
-                key = f.read()
-        else:
-            # Generate new key for cloud deployment
-            key = Fernet.generate_key()
-            # Try to save it (might fail on read-only filesystems)
-            try:
-                os.makedirs(os.path.dirname(fernet_key_path), exist_ok=True)
-                with open(fernet_key_path, "wb") as f:
-                    f.write(key)
-            except (PermissionError, OSError):
-                # Cloud filesystem is read-only, just use the generated key
-                pass
+        """
+        Initialize de-identification pipeline with Presidio
         
-        self.cipher_suite = Fernet(key)
-    except Exception as e:
-        # Fallback: Generate temporary key for this session
-        key = Fernet.generate_key()
-        self.cipher_suite = Fernet(key)
-    
-    # Initialize Presidio components
-    self.analyzer = AnalyzerEngine()
-    self.anonymizer = AnonymizerEngine()
-    
-    # Load spaCy model
-    try:
-        self.nlp = spacy.load("en_core_web_lg")
-    except OSError:
-        # If model not found, download it
-        import subprocess
-        subprocess.run(["python", "-m", "spacy", "download", "en_core_web_lg"])
-        self.nlp = spacy.load("en_core_web_lg")
+        Args:
+            fernet_key_path: Path to Fernet encryption key
+        """
+        import os
+        from cryptography.fernet import Fernet
+        
+        # Initialize encryption
+        try:
+            if os.path.exists(fernet_key_path):
+                # Load existing key from file
+                with open(fernet_key_path, "rb") as f:
+                    key = f.read()
+            else:
+                # Generate new key for this session
+                key = Fernet.generate_key()
+                # Try to save it (might fail on read-only filesystems)
+                try:
+                    os.makedirs(os.path.dirname(fernet_key_path), exist_ok=True)
+                    with open(fernet_key_path, "wb") as f:
+                        f.write(key)
+                except (PermissionError, OSError):
+                    # Cloud filesystem is read-only, just use the generated key
+                    pass
+            
+            self.fernet = Fernet(key)
+        
+        except Exception as e:
+            # Emergency fallback: Generate temporary key
+            print(f"Warning: Could not load encryption key, generating temporary key: {e}")
+            key = Fernet.generate_key()
+            self.fernet = Fernet(key)
+        
+        # Initialize Presidio components
+        self.analyzer = AnalyzerEngine()
+        self.anonymizer = AnonymizerEngine()
+        
+        # Load spaCy model
+        try:
+            self.nlp = spacy.load("en_core_web_lg")
+        except OSError:
+            print("Downloading spaCy model...")
+            import subprocess
+            subprocess.run(["python", "-m", "spacy", "download", "en_core_web_lg"])
+            self.nlp = spacy.load("en_core_web_lg")
 
     def _detect_sections(self, text: str) -> List[Tuple[str, int, int]]:
         """

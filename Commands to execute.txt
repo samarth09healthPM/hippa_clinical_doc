@@ -1,0 +1,28 @@
+Command to create a de-identified copy:
+python app/deid_pipeline.py --input data/synthetic_notes/note1_copy.txt  
+
+
+Command to now pick the deid data and create a vector DB by chunking, embedding 
+python app/indexer.py --input_dir ./data/outputs --db_type chroma --persist_dir ./data/vector_store
+
+command to check vector DB created- Chroma:
+python app/quick_check_chroma.py  
+
+Command to retrieve from DB:
+python app/rag_pipeline.py --db_type chroma --persist_dir ./data/vector_store --collection notes --query "Summarize into HPI/Assessment/Plan" --top_k 5
+
+
+Command to summarize:
+python app/summarizer.py --db_type chroma --persist_dir ./data/vector_store --collection notes --model_name google/flan-t5-large --query "Summarize into structured sections" --top_k 5 --out ./data/outputs/summaries/sample1.txt
+
+Command to run Streamlit UI app:
+streamlit run main.py
+
+# Step 1: Add the file to staging
+git add filename.txt
+
+# Step 2: Commit the file with a message
+git commit -m "Add filename.txt with initial content"
+
+# Step 3: Push to GitHub (main branch)
+git push origin main
