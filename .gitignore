@@ -1,47 +1,109 @@
+# ===================================
+# HIPAA RAG Clinical Project .gitignore
+# ===================================
 
+# ===================================
+# Python Cache and Bytecode
+# ===================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyc
+*.pyo
+*.pyd
+pip-log.txt
+pip-delete-this-directory.txt
 
-
-# Virtual environment
+# ===================================
+# Virtual Environments
+# ===================================
 new_env_rag/
 venv/
 env/
 ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# ===================================
+# IDE and Editor Files
+# ===================================
+.vscode/
+.idea/
+.vs/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ===================================
+# Secrets and Credentials (CRITICAL)
+# ===================================
 
 
-# Data files (vector databases can be large)
-data/vector_store*/
+
+
+*.key
+*.pem
+*.env
+.env
+.env.local
+
+
+
+# ===================================
+# Large Data Files
+# ===================================
+# Raw Synthea data (very large)
+synthea/
+data/raw_synthea/
+data/synthea_output/
+
+# Vector databases (can be large)
+data/vector_store/
+data/vector_store_*/
 *.faiss
-*.pkl
+*.index
+chroma.sqlite3
+chroma-data/
 
-# Logs
+# Model caches (hundreds of MBs)
+models/
+.cache/
+huggingface/
+transformers_cache/
+torch/checkpoints/
+
+# Large log files
 logs/
 *.log
 *.jsonl
+*.out
 
-# Model cache (Hugging Face models are large)
-models/
-.cache/
-
-# Secrets and credentials
-app/streamlit_config.yaml
-config.yaml
-*.key
-*.pem
-secrets.toml
-
-# IDE files
-.vscode/
-.idea/
+# ===================================
+# Output and Temporary Files
+# ===================================
+data/outputs/
+data/temp/
+temp/
+tmp/
+*.tmp
+*.bak
 *.swp
 
-# OS files
-.DS_Store
+# Large de-identified data
+data/anonymized_notes/*.txt
+data/deidentified/*.txt
+
+# ===================================
+# OS-Specific Files
+# ===================================
+# Windows
 Thumbs.db
-
-# Jupyter notebooks checkpoints
-.ipynb_checkpoints/
-
-# Test data with real PHI (never upload!)
-*_real.txt
-*_production.txt
-.vs/ 
+Desktop.ini
