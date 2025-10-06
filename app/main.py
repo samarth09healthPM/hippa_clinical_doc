@@ -64,7 +64,6 @@ authenticator = stauth.Authenticate(
     config["cookie"]["expiry_days"],
 )
 
-# In older versions, login() returns three values
 # Render the login widget
 authenticator.login(location="sidebar")
 
@@ -92,13 +91,18 @@ else:
         st.markdown("---")
         st.info("Use the tabs above to upload notes, generate summaries, and view logs.")
 
+# Clear ChromaDB cache to prevent singleton conflicts
+try:
+    from chromadb.api.client import SharedSystemClient
+    SharedSystemClient.clear_system_cache()
+except:
+    pass
+
 # Generate a unique persist_dir for each session if not already set
 if "persist_dir" not in st.session_state:
-    # Option 1: Use username if available
     if st.session_state.get("username"):
         st.session_state["persist_dir"] = f"./data/vector_store_{st.session_state['username']}"
     else:
-        # Option 2: Use a random UUID and timestamp
         unique_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + str(uuid.uuid4())[:8]
         st.session_state["persist_dir"] = f"./data/vector_store_{unique_id}"
 
@@ -145,18 +149,18 @@ with upload_tab:
                 st.text_area("De-identified preview", deid_text, height=160)
 
                 from indexer import index_note
-                # CRITICAL FIX: Use session-specific persist_dir
+                # Use session-specific persist_dir
                 note_id = index_note(
                     text=deid_text,
-                    note_id=f"note_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}",  # Unique note ID
-                    persist_dir=st.session_state["persist_dir"],  # Session-specific path
+                    note_id=f"note_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                    persist_dir=st.session_state["persist_dir"],
                     db_type="chroma",
                     model_name="sentence-transformers/all-MiniLM-L6-v2",
                     collection="notes"
                 )
                 st.session_state["last_note_id"] = note_id
                 st.session_state["last_deid_text"] = deid_text
-                st.session_state["last_note_indexed"] = True  # Flag that we just indexed
+                st.session_state["last_note_indexed"] = True
                 st.success(f"✓ Indexed note_id: {note_id}")
                 st.info(f"📁 Stored in: {st.session_state['persist_dir']}")
 
@@ -185,7 +189,7 @@ with upload_tab:
             st.code(traceback.format_exc())
     elif skip_index_clicked and note_text:
         st.session_state["last_deid_text"] = note_text
-        st.session_state["last_note_indexed"] = False  # Flag that we skipped
+        st.session_state["last_note_indexed"] = False
         st.info("Skipped indexing; text saved for summarization.")
 
         # Audit log for skipping
@@ -208,15 +212,15 @@ with summarize_tab:
     st.caption("Retrieves context and generates a structured clinical summary.")
 
     from rag_pipeline import load_embedder, load_chroma, load_faiss_langchain, retrieve
-    from summarizer import make_t5, summarize_docs, validate_summary_quality  # ADD validate_summary_quality here
+    from summarizer import make_t5, summarize_docs, validate_summary_quality
     
-     # ADD THESE 4 LINES ↓
+    # Environment detection
     import os
     IS_CLOUD = os.path.exists('/mount/src')
     if IS_CLOUD:
         st.info("🌐 Cloud Mode: Using optimized model (flan-t5-base)")
     
-    # CRITICAL FIX: Clear ChromaDB system cache to avoid singleton conflicts
+    # Clear ChromaDB system cache to avoid singleton conflicts
     try:
         import chromadb
         from chromadb.api.client import SharedSystemClient
@@ -246,7 +250,7 @@ with summarize_tab:
                 collection = "notes"
                 top_k = 5
 
-                # CRITICAL FIX: Cache vector database in session state to avoid recreating
+                # Cache vector database in session state to avoid recreating
                 cache_key = f"vdb_{persist_dir}_{collection}"
                 
                 if cache_key not in st.session_state:
@@ -270,7 +274,7 @@ with summarize_tab:
                     vdb = st.session_state[cache_key]
                     st.info("✓ Using cached vector database")
 
-                # CRITICAL FIX: Use actual note content for retrieval
+                # Use actual note content for retrieval
                 if source_choice == "Note ID" and user_note_id:
                     query_text = user_note_id
                     st.info(f"🔍 Retrieving by Note ID: {user_note_id}")
@@ -326,11 +330,7 @@ with summarize_tab:
                 st.session_state["last_summary"] = summary
                 st.session_state["last_summary_key"] = summary_key
 
-            # ============================================
-            # VALIDATION STARTS HERE - ADD THIS ENTIRE SECTION
-            # ============================================
-            
-            # Get original text for validation
+            # Validation
             original_text = st.session_state.get("last_deid_text", "")
             validation = validate_summary_quality(summary, original_text)
             
@@ -383,10 +383,6 @@ with summarize_tab:
                 st.info("ℹ️ The summary has minor quality issues. Review the warnings above.")
             else:
                 st.success("✅ Summary quality is acceptable.")
-            
-            # ============================================
-            # VALIDATION ENDS HERE
-            # ============================================
             
             # Display the summary
             st.text_area("Structured Summary", summary, height=400, key=f"summary_display_{summary_key}")
@@ -455,7 +451,6 @@ with summarize_tab:
         st.download_button("Download Last Summary", 
                           data=st.session_state["last_summary"], 
                           file_name="last_summary.txt")
-
 
 # --- Logs tab ---
 with logs_tab:
